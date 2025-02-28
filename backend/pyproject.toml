@@ -1,0 +1,10 @@
+[tool.poetry]
+name = "surf-counter"
+version = "0.0.1"
+description = "Count surfers using roboflow"
+authors = ["Jojo Ortiz <ortiz.jroman@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "3.12"
+inference-sdk = ">=0.9.18"
+python-dotenv = "1.0.1"
