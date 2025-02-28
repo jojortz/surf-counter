@@ -1,2 +1,2 @@
-# surf-counter
-Project to count surfers from webcam footage.
+# Surf Counter 🏄🏻
+Project to experiment with CV to count surfers from livestreamed footage.
