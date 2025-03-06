@@ -9,4 +9,6 @@ python = "3.12.9"
 inference-sdk = ">=0.9.18"
 python-dotenv = "1.0.1"
 inference = "0.40.0"
+fastapi = "^0.110.0"
+uvicorn = "^0.34.0"
 
