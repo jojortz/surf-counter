@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
 import cv2
 from io import BytesIO
 import threading
@@ -13,6 +14,15 @@ hosted_test = HostedTest(
 )
 
 app = FastAPI()
+
+# Allow CORS from http://localhost:3000 (Frontend)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # List of allowed origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Video setup
 VIDEO_PATH = os.path.join(os.path.dirname(__file__), '../data/surf-video.mp4')
@@ -47,7 +57,6 @@ def get_frame():
 
 @app.get("/get-count")
 def get_count():
-    # request from /surfline/frame
     response = requests.get("http://127.0.0.1:8000/surfline/frame")
 
     if response.status_code != 200:
@@ -55,7 +64,9 @@ def get_count():
 
     img = Image.open(BytesIO(response.content))
     
-    # Run the hosted workflow on Roboflow
     result = hosted_test.run(img)
 
-    return {"count_objects": result[0]["count_objects"]}
+    return {
+        "count_objects": result[0]["count_objects"],
+        "output_image": result[0]["output_image"]
+    }

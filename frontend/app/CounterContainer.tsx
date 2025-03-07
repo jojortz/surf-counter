@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import Button from './components/Button';
+import { getSurferCount } from '@/services/api';
 
 enum COUNTER_STATES {
     READY_TO_COUNT,
@@ -11,16 +12,14 @@ enum COUNTER_STATES {
 const CounterContainer = () => {
     const [counterState, setCounterState] = useState(COUNTER_STATES.READY_TO_COUNT);
     const [count, setCount] = useState(0);
+    const [imageData, setImageData] = useState('');
 
-    const getNextFrame = () => {
-        setCount(count + 1);
+    const getNextFrame = async () => {
         setCounterState(COUNTER_STATES.LOADING);
-        // delay 2 seconds then set  the state to READY_TO_COUNT
-        setTimeout(() => {
-            setCounterState(COUNTER_STATES.COUNTING);
-        }, 2000);    
-
-        // Update frame in UI
+        const response = await getSurferCount();
+        setCount(response.count_objects);
+        setImageData(response.image_data);
+        setCounterState(COUNTER_STATES.COUNTING);
     }
 
     return (
@@ -62,16 +61,19 @@ const CounterContainer = () => {
             <div className='rounded-xl relative'>
                 {
                     counterState === COUNTER_STATES.LOADING && (
-                    <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl">
-                        <p className="text-lg font-semibold text-center absolute inset-0 flex justify-center items-center">Loading...</p>
-                    </div>
+                    <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl"/>
                     )
                 }
                 {
                     counterState === COUNTER_STATES.COUNTING && (
                         <div className="flex items-center justify-center h-full">
-                            <p className="text-lg font-semibold">Counting...</p>
-                        </div>
+                        <img 
+                            src={`data:image/jpeg;base64,${imageData}`} 
+                            alt="Counting Image" 
+                            className="max-w-full max-h-full object-contain" 
+                        />
+                    </div>
+            
                     )
                 }
                 {
