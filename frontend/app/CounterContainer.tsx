@@ -58,31 +58,26 @@ const CounterContainer = () => {
                     </div>
                 )}
             </div>
-            <div className='rounded-xl relative'>
-                {
-                    counterState === COUNTER_STATES.LOADING && (
-                    <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl"/>
-                    )
-                }
-                {
-                    counterState === COUNTER_STATES.COUNTING && (
-                        <div className="flex items-center justify-center h-full">
-                        <img 
-                            src={`data:image/jpeg;base64,${imageData}`} 
-                            alt="Counting Image" 
-                            className="max-w-full max-h-full object-contain" 
-                        />
-                    </div>
-            
-                    )
-                }
-                {
-                    counterState === COUNTER_STATES.READY_TO_COUNT && (
-                        <div className="flex items-center justify-center h-full">
+            <div className="flex items-center justify-center w-full h-full">
+                <div className="rounded-xl relative max-w-full aspect-[16/9]">
+                    {counterState === COUNTER_STATES.LOADING && (
+                        <div className="absolute inset-0 rounded-xl bg-gray-200 animate-pulse opacity-10"/>
+                    )}
+                    {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING) && (
+                        <div className="flex items-center justify-center h-full w-full">
+                            <img 
+                                src={`data:image/jpeg;base64,${imageData}`} 
+                                alt="Counting Image" 
+                                className="w-full h-full object-contain rounded-xl" 
+                            />
+                        </div>
+                    )}
+                    {counterState === COUNTER_STATES.READY_TO_COUNT && (
+                        <div className="flex items-center justify-center h-full w-full">
                             <p className="text-lg font-semibold">Ready to count</p>
                         </div>
-                    )
-                }
+                    )}
+                </div>
             </div>
         </div>
     );
