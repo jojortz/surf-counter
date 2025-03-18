@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Button from './components/Button';
+import SurferCountVisualization from './components/Counter/SurferCountVisualization';
 
 enum COUNTER_STATES {
     READY_TO_COUNT,
@@ -79,53 +80,58 @@ const CounterContainer = () => {
                 {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING)
                  && (
                     <div className="text-center flex flex-col">
-                        <div className='w-full flex justify-between items-center'>
-                            <p className="text-lg font-semibold">Surfer Count </p>
-                            <p className="text-lg font-semibold">{count}</p>
-                        </div>
-                        <Button 
-                            onClick={getNextFrame} 
-                            text="Generate Next Frame" 
-                            className="mt-4"
-                            disabled={counterState === COUNTER_STATES.LOADING}
-                            />
-                        <Button 
-                            onClick={handleRestart} 
-                            text="Restart" 
-                            className="mt-4"
-                            border
-                            disabled={counterState === COUNTER_STATES.LOADING}
-                            />
+                        <SurferCountVisualization count={count}/>
                     </div>
                 )}
             </div>
-            <div className="flex items-center justify-center w-full h-full">
-                <div className="rounded-xl relative max-w-full aspect-[16/9]">
-                    {counterState === COUNTER_STATES.LOADING && (
-                        <div className="absolute inset-0 rounded-xl bg-gray-200 animate-pulse opacity-10"/>
-                    )}
-                    {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING) && (
-                        <div className="flex items-center justify-center h-full w-full">
-                            {imageData ? 
-                                <img 
-                                src={`data:image/png;base64,${imageData}`} 
-                                alt="Counting Image" 
-                                className="w-full h-full object-contain rounded-xl" 
-                                />
-                                :
-                                <img 
-                                src={initImage} 
-                                alt="Counting Image" 
-                                className="w-full h-full object-contain rounded-xl" 
-                                />
-                            }
-                        </div>
-                    )}
-                    {counterState === COUNTER_STATES.READY_TO_COUNT && (
-                        <div className="flex items-center justify-center h-full w-full">
-                            <p className="text-lg font-semibold">Ready to count</p>
-                        </div>
-                    )}
+            <div className='flex flex-col items-center justify-center'>
+                <div className='flex flex-col items-center justify-center gap-10'>
+                <div className="flex items-center justify-center w-full h-full">
+                    <div className="rounded-xl relative max-w-full aspect-[16/9]">
+                        {counterState === COUNTER_STATES.LOADING && (
+                            <div className="absolute inset-0 rounded-xl bg-gray-200 animate-pulse opacity-10"/>
+                        )}
+                        {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING) && (
+                            <div className="flex items-center justify-center h-full w-full">
+                                {imageData ? 
+                                    <img 
+                                    src={`data:image/png;base64,${imageData}`} 
+                                    alt="Counting Image" 
+                                    className="w-full h-full object-contain rounded-xl" 
+                                    />
+                                    :
+                                    <img 
+                                    src={initImage} 
+                                    alt="Counting Image" 
+                                    className="w-full h-full object-contain rounded-xl" 
+                                    />
+                                }
+                            </div>
+                        )}
+                        {counterState === COUNTER_STATES.READY_TO_COUNT && (
+                            <div className="flex items-center justify-center h-full w-full">
+                                <p className="text-lg font-semibold">Ready to count</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING) && (
+                    <div className="flex items-center justify-center gap-10 w-full h-full">
+                        <Button
+                        onClick={getNextFrame}
+                        text="Generate Next Frame"
+                        className="mt-4"
+                        disabled={counterState === COUNTER_STATES.LOADING}
+                        />
+                        <Button
+                        onClick={handleRestart}
+                        text="Restart"
+                        className="mt-4"
+                        border
+                        disabled={counterState === COUNTER_STATES.LOADING}
+                        />
+                    </div>
+                )}
                 </div>
             </div>
         </div>
