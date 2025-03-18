@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from './components/Button';
 
 enum COUNTER_STATES {
@@ -8,16 +8,36 @@ enum COUNTER_STATES {
     COUNTING,
 };
 
+const INIT_TIMESTAMP = 1;
+
 const CounterContainer = () => {
     const [counterState, setCounterState] = useState(COUNTER_STATES.READY_TO_COUNT);
     const [count, setCount] = useState(0);
     const [imageData, setImageData] = useState('');
-    const [timestamp, setTimestamp] = useState(1);
+    const [timestamp, setTimestamp] = useState(INIT_TIMESTAMP);
+    const [initImage, setInitImage] = useState('')
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            try {
+                const response = await fetch('/api/surfline/get-frame?' + new URLSearchParams({
+                    timestamp: timestamp.toString(),
+                }).toString());
+                
+                const data = await response.json();
+                setInitImage(data.frameUrl);
+            } catch (error) {
+                console.error("Error fetching image:", error);
+            }
+        };
+
+        fetchImage();
+    }, [timestamp]);
 
     const getNextFrame = async () => {
         setCounterState(COUNTER_STATES.LOADING);
         try {
-            const response = await fetch('/api/roboflow/get-frame?' + new URLSearchParams({
+            const response = await fetch('/api/roboflow/get-count?' + new URLSearchParams({
                 timestamp: timestamp.toString(),
             }).toString());
 
@@ -38,6 +58,8 @@ const CounterContainer = () => {
 
     const handleRestart = () => {
         setCounterState(COUNTER_STATES.READY_TO_COUNT);
+        setImageData('');
+        setCount(0)
         setTimestamp(1);
     }
 
@@ -68,7 +90,7 @@ const CounterContainer = () => {
                             disabled={counterState === COUNTER_STATES.LOADING}
                             />
                         <Button 
-                            onClick={() => setCounterState(COUNTER_STATES.READY_TO_COUNT)} 
+                            onClick={handleRestart} 
                             text="Restart" 
                             className="mt-4"
                             border
@@ -84,9 +106,15 @@ const CounterContainer = () => {
                     )}
                     {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING) && (
                         <div className="flex items-center justify-center h-full w-full">
-                            {imageData && 
+                            {imageData ? 
                                 <img 
                                 src={`data:image/png;base64,${imageData}`} 
+                                alt="Counting Image" 
+                                className="w-full h-full object-contain rounded-xl" 
+                                />
+                                :
+                                <img 
+                                src={initImage} 
                                 alt="Counting Image" 
                                 className="w-full h-full object-contain rounded-xl" 
                                 />
