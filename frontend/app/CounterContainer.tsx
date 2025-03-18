@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from 'react';
 import Button from './components/Button';
-import { getSurferCount } from '@/services/api';
 
 enum COUNTER_STATES {
     READY_TO_COUNT,
@@ -13,13 +12,33 @@ const CounterContainer = () => {
     const [counterState, setCounterState] = useState(COUNTER_STATES.READY_TO_COUNT);
     const [count, setCount] = useState(0);
     const [imageData, setImageData] = useState('');
+    const [timestamp, setTimestamp] = useState(1);
 
     const getNextFrame = async () => {
         setCounterState(COUNTER_STATES.LOADING);
-        const response = await getSurferCount();
-        setCount(response.count_objects);
-        setImageData(response.image_data);
-        setCounterState(COUNTER_STATES.COUNTING);
+        try {
+            const response = await fetch('/api/roboflow/get-frame?' + new URLSearchParams({
+                timestamp: timestamp.toString(),
+            }).toString());
+
+            if (response.ok) {
+                const { numSurfers, imageData } = await response.json();
+                setImageData(imageData);
+                setCount(numSurfers)
+                setTimestamp(timestamp + 1);
+            } else {
+              console.error('Failed to fetch the frame.');
+            }
+          } catch (error) {
+            console.error('Error fetching the frame:', error);
+          } finally {
+            setCounterState(COUNTER_STATES.COUNTING);
+        }
+    }
+
+    const handleRestart = () => {
+        setCounterState(COUNTER_STATES.READY_TO_COUNT);
+        setTimestamp(1);
     }
 
     return (
@@ -65,11 +84,13 @@ const CounterContainer = () => {
                     )}
                     {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING) && (
                         <div className="flex items-center justify-center h-full w-full">
-                            <img 
-                                src={`data:image/jpeg;base64,${imageData}`} 
+                            {imageData && 
+                                <img 
+                                src={`data:image/png;base64,${imageData}`} 
                                 alt="Counting Image" 
                                 className="w-full h-full object-contain rounded-xl" 
-                            />
+                                />
+                            }
                         </div>
                     )}
                     {counterState === COUNTER_STATES.READY_TO_COUNT && (
