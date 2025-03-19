@@ -4,7 +4,7 @@ import NavbarMenu from "./NavbarMenu";
 const Navbar = () => {
     return (  
         <div
-        className={`fixed w-full z-50 flex flex-col justify-center h-[100px] pt-10`}
+        className={`fixed w-full z-50 flex flex-col justify-center h-[80px] py-4 bg-gradient-to-r from-purple-600 to-blue-500 shadow-md shadow-blue-500/50`}
         >
             <div className="
             py-4

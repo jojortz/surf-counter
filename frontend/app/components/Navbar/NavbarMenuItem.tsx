@@ -5,7 +5,7 @@ interface NavbarMenuItemProps {
 
 const NavbarMenuItem = ({text, onClick}: NavbarMenuItemProps) => {
     return (
-        <div onClick={onClick} className="cursor-pointer font-semibold hover:text-purple-500">{text}</div>
+        <div onClick={onClick} className="text-lg cursor-pointer font-semibold hover:text-purple-600">{text}</div>
     )
 }
 
