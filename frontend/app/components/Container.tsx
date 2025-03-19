@@ -18,6 +18,7 @@ const Container = ({ children, styles, bgcolor, centerX, centerY }: ContainerPro
                 md:px-10
                 sm:px-4
                 px-4
+                min-w-sm
                 ${styles || 'min-h-full'}
                 ${bgcolor || ''}
                 ${(centerX || centerY) && 'flex flex-col'}
