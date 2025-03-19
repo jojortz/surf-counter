@@ -111,6 +111,7 @@ const Modal = ({ isOpen, onClose, title, body, footer }: ModalProps) => {
                   hover:bg-neutral-200
                   rounded-full
                   cursor-pointer
+                  text-neutral-800
                 "
               >
                 <X size={24} />
