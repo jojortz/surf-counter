@@ -8,7 +8,7 @@ const AnnotatedModal = () => {
 
   const bodyContent = (
     <div className="flex items-center justify-center h-auto lg:h-[600px] xl:h-[800px] w-auto">
-      <img src={`data:image/png;base64,${imageModal.image}`} alt="modal" className="h-auto lg:h-auto w-auto lg:w-full" />
+      <img src={`data:image/png;base64,${imageModal.image}`} alt="modal" className="h-auto lg:h-auto w-auto lg:w-full rounded-md" />
     </div>
   );
 
