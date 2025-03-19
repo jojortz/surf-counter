@@ -1,4 +1,5 @@
 import Container from "../Container";
+import NavbarMenu from "./NavbarMenu";
 
 const Navbar = () => {
     return (  
@@ -14,9 +15,7 @@ const Navbar = () => {
                         <div className="text-4xl font-semibold">
                             Surf Counter
                         </div>
-                        <div>
-                            Menu
-                        </div>
+                        <NavbarMenu/>
                     </div>
                 </Container>
             </div>
