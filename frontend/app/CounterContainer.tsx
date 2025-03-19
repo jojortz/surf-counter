@@ -97,19 +97,21 @@ const CounterContainer = () => {
                     </div>
                     {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING) && (
                         <div className="flex items-center justify-center gap-10 w-full h-full">
-                            <Button
-                            onClick={getNextFrame}
-                            text="Generate Next Frame"
-                            className="mt-4"
-                            disabled={counterState === COUNTER_STATES.LOADING}
-                            />
-                            <Button
-                            onClick={handleRestart}
-                            text="Restart"
-                            className="mt-4"
-                            border
-                            disabled={counterState === COUNTER_STATES.LOADING}
-                            />
+                            <div className="grid grid-cols-2 gap-4">
+                                <Button
+                                onClick={getNextFrame}
+                                text="Annotate Next Frame"
+                                className="mt-4"
+                                disabled={counterState === COUNTER_STATES.LOADING}
+                                />
+                                <Button
+                                onClick={handleRestart}
+                                text="Restart"
+                                className="mt-4"
+                                border
+                                disabled={counterState === COUNTER_STATES.LOADING}
+                                />
+                            </div>
                         </div>
                     )}
                     </div>
