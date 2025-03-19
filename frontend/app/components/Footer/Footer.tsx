@@ -2,9 +2,9 @@ import Link from "../Link";
 
 const Footer = () => {
     return (
-        <footer className="mt-auto row-start-3 flex gap-6 flex-wrap items-center justify-center">
+        <footer className="flex gap-6 items-center justify-center min-h-[80px] border-t mt-8">
             <div>Built by <Link href='https://www.linkedin.com/in/joseromanortiz'>Jojo</Link> | Powered by <Link href='https://roboflow.com/'>Roboflow</Link></div>
-      </footer>
+        </footer>
     )
 };
 
