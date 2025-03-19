@@ -31,7 +31,7 @@ export async function GET(request: Request): Promise<NextResponse> {
     return NextResponse.json<GetFrameResponse>(responseData, { status: 200 });
   } catch (error) {
     console.error('Error generating frame URL:', error);
-    return NextResponse.json<ErrorResponse>({ error: 'Error generating frame' }, { status: 500 });
+    return NextResponse.json<ErrorResponse>({ error: 'Error generating surfline frame' }, { status: 500 });
   }
 }
 
