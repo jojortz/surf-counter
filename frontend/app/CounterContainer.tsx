@@ -1,13 +1,15 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import React from 'react';
 import Button from './components/Button';
 import SurferCountVisualization from './components/Counter/SurferCountVisualization';
 import Container from './components/Container';
 import InitImage from './components/InitImage';
 import { useDemoStore, COUNTER_STATES } from './hooks/useDemoStore';
 import useAnnotatedModal from './hooks/useAnnotatedModal';
+import { useRouter } from 'next/navigation';
 
 const CounterContainer = () => {
+    const router = useRouter();
     const { 
         counterState,
         setCounterState,
@@ -23,6 +25,10 @@ const CounterContainer = () => {
     const handleStart = async () => {
         setCounterState(COUNTER_STATES.COUNTING);
         getNextFrame();
+    }
+
+    const handleLearnMore = () => {
+        router.push("/about");
     }
 
     const getNextFrame = async () => {
@@ -66,11 +72,21 @@ const CounterContainer = () => {
                     {counterState === COUNTER_STATES.READY_TO_COUNT && (
                         <div className="text-center">
                             <p className="text-lg font-semibold">Ready to count?</p>
-                            <Button 
-                                onClick={handleStart} 
-                                text="Start Counting" 
-                                className="mt-4"
-                                />
+                            <div className="flex items-center justify-center gap-10 w-full h-full">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <Button 
+                                        onClick={handleStart} 
+                                        text="Start Counting" 
+                                        className="mt-4"
+                                        />
+                                    <Button 
+                                        onClick={handleLearnMore} 
+                                        text="Learn More" 
+                                        className="mt-4"
+                                        border
+                                        />
+                                 </div>
+                            </div>
                         </div>
                     )}
                     {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING)
