@@ -4,21 +4,20 @@ import Button from './components/Button';
 import SurferCountVisualization from './components/Counter/SurferCountVisualization';
 import Container from './components/Container';
 import InitImage from './components/InitImage';
-import useAnnotatedModal from './components/hooks/useAnnotatedModal';
-
-enum COUNTER_STATES {
-    READY_TO_COUNT,
-    LOADING,
-    COUNTING,
-};
-
-const INIT_TIMESTAMP = 1;
+import { useDemoStore, COUNTER_STATES } from './hooks/useDemoStore';
+import useAnnotatedModal from './hooks/useAnnotatedModal';
 
 const CounterContainer = () => {
-    const [counterState, setCounterState] = useState(COUNTER_STATES.READY_TO_COUNT);
-    const [count, setCount] = useState(0);
-    const [imageData, setImageData] = useState('');
-    const [timestamp, setTimestamp] = useState(INIT_TIMESTAMP);
+    const { 
+        counterState,
+        setCounterState,
+        count,
+        setCount,
+        imageData,
+        setImageData,
+        timestamp,
+        setTimestamp
+    } = useDemoStore();
     const annotatedModal = useAnnotatedModal();
 
     const handleStart = async () => {

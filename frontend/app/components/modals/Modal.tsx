@@ -2,7 +2,7 @@
 
 import { X } from '@phosphor-icons/react';
 import { useCallback, useEffect, useState } from 'react';
-import { useOutsideClickModal } from '../hooks/useOutsideClickModal';
+import { useOutsideClickModal } from '../../hooks/useOutsideClickModal';
 
 interface ModalProps {
   isOpen?: boolean;

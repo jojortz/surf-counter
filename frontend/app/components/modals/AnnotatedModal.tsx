@@ -1,6 +1,6 @@
 'use client';
 
-import useAnnotatedModal from '../hooks/useAnnotatedModal';
+import useAnnotatedModal from '../../hooks/useAnnotatedModal';
 import Modal from './Modal';
 
 const AnnotatedModal = () => {
