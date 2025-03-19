@@ -65,7 +65,7 @@ const CounterContainer = () => {
     }
 
     return (
-        <div className="w-[80vw] h-[60vh] grid grid-cols-[400px_1fr]">
+        <div className="w-[80vw] h-full grid grid-cols-[400px_1fr]">
             <div className="p-10 flex items-center justify-center">
                 {counterState === COUNTER_STATES.READY_TO_COUNT && (
                     <div className="text-center">
