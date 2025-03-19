@@ -13,9 +13,10 @@ const AboutPage = () => {
     return (
         <Container>
             <div className="min-h-[85vh]">
-                <Heading text="About"/>
-                <div>
-                    <InitImage/>
+                <div className="flex items-center justify-center pb-4">            
+                    <div className="max-w-screen-lg">
+                        <InitImage/>
+                    </div>
                 </div>
                 <Paragraph>Surf Counter is a prototype of a concept I've had in the back of my mind for some time. I'm a surfer, and there's an app called <Link href="https://www.surfline.com">Surfline</Link> which lets you access webcams to view live and recorded footage of surf spots.</Paragraph>
                 <Paragraph>I'm always checking the cams to see how the waves look and also check how crowded a spot is. For checking crowds, it would be nice to know how crowded a spot is, and also to look at historical trends to understand and predict crowds depending on factors like time of year and surf conditions.</Paragraph>
