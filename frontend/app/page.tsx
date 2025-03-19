@@ -1,4 +1,3 @@
-import Link from './components/Link';
 import CounterContainer from './CounterContainer';
 
 export default function Home() {
