@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose, title, body, footer }: ModalProps) => {
         overflow-y-auto
         fixed
         inset-0
-        z-50
+        z-60
         outline-none
         focus:outline-none
         bg-neutral-800/70
