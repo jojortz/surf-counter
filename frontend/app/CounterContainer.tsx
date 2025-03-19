@@ -1,8 +1,9 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from './components/Button';
 import SurferCountVisualization from './components/Counter/SurferCountVisualization';
 import Container from './components/Container';
+import InitImage from './components/InitImage';
 
 enum COUNTER_STATES {
     READY_TO_COUNT,
@@ -11,7 +12,6 @@ enum COUNTER_STATES {
 };
 
 const INIT_TIMESTAMP = 1;
-const INIT_IMAGE_URL = "https://res.cloudinary.com/dwgyzufyz/video/upload/so_1/surf-video-7min_ecsxav.jpg"
 
 const CounterContainer = () => {
     const [counterState, setCounterState] = useState(COUNTER_STATES.READY_TO_COUNT);
@@ -81,32 +81,18 @@ const CounterContainer = () => {
                             {counterState === COUNTER_STATES.LOADING && (
                                 <div className="absolute inset-0 rounded-xl bg-gray-200 animate-pulse opacity-10"/>
                             )}
-                            {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING) && (
-                                <div className="flex items-center justify-center h-full w-full">
-                                    {imageData ? 
-                                    <img 
-                                        src={`data:image/png;base64,${imageData}`} 
-                                        alt="Counting Image" 
-                                        className="w-full h-full object-contain rounded-xl" 
-                                    />
-                                    :
+                            {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING && imageData) ? (
+                                    <div className="flex items-center justify-center h-full w-full">
                                         <img 
-                                        src={INIT_IMAGE_URL} 
-                                        alt="Counting Image" 
-                                        className="w-full h-full object-contain rounded-xl" 
+                                            src={`data:image/png;base64,${imageData}`} 
+                                            alt="Counting Image" 
+                                            className="w-full h-full object-contain rounded-xl" 
                                         />
-                                    }
-                                </div>
-                            )}
-                            {counterState === COUNTER_STATES.READY_TO_COUNT && (
-                                <div className="flex items-center justify-center h-full w-full">
-                                    <img 
-                                        src={INIT_IMAGE_URL} 
-                                        alt="Counting Image" 
-                                        className="w-full h-full object-contain rounded-xl" 
-                                        />
-                                </div>
-                            )}                        
+                                    </div>
+                                ) : (
+                                    <InitImage />
+                                )
+                            }
                         </div>
                     </div>
                     {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING) && (
