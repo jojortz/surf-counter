@@ -4,6 +4,7 @@ import Button from './components/Button';
 import SurferCountVisualization from './components/Counter/SurferCountVisualization';
 import Container from './components/Container';
 import InitImage from './components/InitImage';
+import useAnnotatedModal from './components/hooks/useAnnotatedModal';
 
 enum COUNTER_STATES {
     READY_TO_COUNT,
@@ -18,6 +19,7 @@ const CounterContainer = () => {
     const [count, setCount] = useState(0);
     const [imageData, setImageData] = useState('');
     const [timestamp, setTimestamp] = useState(INIT_TIMESTAMP);
+    const annotatedModal = useAnnotatedModal();
 
     const handleStart = async () => {
         setCounterState(COUNTER_STATES.COUNTING);
@@ -53,6 +55,11 @@ const CounterContainer = () => {
         setTimestamp(1);
     }
 
+    const handleAnnotatedImageClick = () => {
+        annotatedModal.setImage(imageData);
+        annotatedModal.onOpen();
+    }
+
     return (
         <Container>
             <div className="w-full h-full grid grid-rows lg:grid-cols-[400px_1fr]">
@@ -82,7 +89,8 @@ const CounterContainer = () => {
                                 <div className="absolute inset-0 rounded-xl bg-gray-200 animate-pulse opacity-10"/>
                             )}
                             {(counterState === COUNTER_STATES.COUNTING || counterState === COUNTER_STATES.LOADING && imageData) ? (
-                                    <div className="flex items-center justify-center h-full w-full">
+                                    <div className="flex items-center justify-center h-full w-full cursor-pointer"
+                                        onClick={handleAnnotatedImageClick}>
                                         <img 
                                             src={`data:image/png;base64,${imageData}`} 
                                             alt="Counting Image" 
