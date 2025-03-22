@@ -40,7 +40,6 @@ const CounterContainer = () => {
 
     const handleNextFrame = async () => {
         if (countHistory.length > timestamp) {
-            console.log('increaseing timestamp', countHistory.length, timestamp)
             setTimestamp(timestamp + 1);
         } else{
             setCounterState(COUNTER_STATES.LOADING);
