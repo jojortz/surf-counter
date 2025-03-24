@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { ModelVersion } from '@/app/hooks/useDemoStore';
 
 interface GetFrameResponse {
   numSurfers: number,
@@ -12,11 +13,21 @@ interface ErrorResponse {
 export async function GET(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const timestamp = searchParams.get('timestamp');
+  const model: ModelVersion = (searchParams.get('model') as ModelVersion) || 'v1';
 
   if (!timestamp) {
     return NextResponse.json<ErrorResponse>({ error: 'Missing timestamp parameter' }, { status: 400 });
   }
 
+  if (!model) {
+    return NextResponse.json<ErrorResponse>({ error: 'Missing model parameter' }, { status: 400 });
+  }
+
+  if (!['v1', 'v2', 'v3'].includes(model)) {
+    return NextResponse.json<ErrorResponse>({ error: 'Invalid model parameter' }, { status: 400 });
+  }
+
+  console.log('Model:', model);
   try {
     const timestampInSeconds = parseInt(timestamp, 10);
     if (isNaN(timestampInSeconds) || timestampInSeconds < 0) {
@@ -29,7 +40,7 @@ export async function GET(request: Request): Promise<NextResponse> {
   
     const data = await response.json();
     const frameUrl = (data.frameUrl);
-    const annotatedResponse = await annotateImage(frameUrl);
+    const annotatedResponse = await annotateImage(frameUrl, model);
 
     const responseData: GetFrameResponse = {
       numSurfers: annotatedResponse.outputs[0].count_objects,
@@ -43,8 +54,13 @@ export async function GET(request: Request): Promise<NextResponse> {
   }
 }
 
-async function annotateImage(imageUrl: string) {
-  const response = await fetch(`https://detect.roboflow.com/infer/workflows/${process.env.ROBOFLOW_PROJECT_UNIQUE_URL}`, {
+async function annotateImage(imageUrl: string, model: ModelVersion) {
+  const projectUrl = getProjectURLfromModel(model);
+  if (!projectUrl) {
+    throw new Error('Invalid model version');
+  }
+  console.log('Project URL:', projectUrl);
+  const response = await fetch(`https://detect.roboflow.com/infer/workflows/${projectUrl}`, {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -59,4 +75,17 @@ async function annotateImage(imageUrl: string) {
 
   const result = await response.json();
   return result;
+}
+
+function getProjectURLfromModel(model: ModelVersion): string | undefined{
+  switch (model) {
+    case 'v1':
+      return process.env.ROBOFLOW_PROJECT_UNIQUE_URL_V1;
+    case 'v2':
+      return process.env.ROBOFLOW_PROJECT_UNIQUE_URL_V2;
+    case 'v3':
+      return process.env.ROBOFLOW_PROJECT_UNIQUE_URL_V3;
+    default:
+      throw new Error('Invalid model version');
+  }
 }

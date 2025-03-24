@@ -16,6 +16,7 @@ const SurferCountVisualization = ({ countHistory, timestamp }: SurferCountVisual
                 (
                     <>
                         <p className="text-2xl font-semibold">Frame {timestamp}/{countHistory.length}</p>
+                        <p className="text-2xl font-semibold">Model: {countHistory[timestamp-1]?.model}</p>
                         <p className="text-xl font-semibold">Surfer Count: {count}</p>
                         <div className="text-4xl font-semibold">{surferEmojis}</div>
                     </>

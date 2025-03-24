@@ -19,6 +19,7 @@ const CounterContainer = () => {
         setCounterState,
         count,
         setCount,
+        model,
         countHistory,
         setCountHistory,
         addToCountHistory,
@@ -46,6 +47,7 @@ const CounterContainer = () => {
             try {
                 const response = await fetch('/api/roboflow/get-count?' + new URLSearchParams({
                     timestamp: timestamp.toString(),
+                    model: model
                 }).toString());
 
                 if (response.ok) {
@@ -54,6 +56,7 @@ const CounterContainer = () => {
                     setCount(numSurfers);
 
                     const newFrameData: FrameData = {
+                        model: model,
                         count: numSurfers,
                         image: imageData
                     }

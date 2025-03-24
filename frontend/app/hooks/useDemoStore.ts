@@ -1,3 +1,4 @@
+import { Mode } from 'fs';
 import { create } from 'zustand';
 
 export enum COUNTER_STATES {
@@ -5,6 +6,8 @@ export enum COUNTER_STATES {
     LOADING,
     COUNTING,
 };
+
+export type ModelVersion = 'v1' | 'v2' | 'v3';    
 
 export type FrameData = {
     count: number,
@@ -14,6 +17,8 @@ export type FrameData = {
 interface DemoStore {
     counterState: COUNTER_STATES,
     setCounterState: (newState: COUNTER_STATES) => void,
+    model: ModelVersion,
+    setModel: (newModel: ModelVersion) => void,
     count: number,
     setCount: (newCount: number) => void,
     countHistory: FrameData[],
@@ -28,6 +33,8 @@ interface DemoStore {
 export const useDemoStore = create<DemoStore>((set) => ({
     counterState: COUNTER_STATES.READY_TO_COUNT,
     setCounterState: (newState) => set({ counterState: newState }),
+    model: 'v3',
+    setModel: (newModel: ModelVersion) => set({model: newModel}),
     count: 0,
     setCount: (newCount) => set({count: newCount}),
     countHistory: [],
