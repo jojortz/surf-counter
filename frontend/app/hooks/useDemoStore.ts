@@ -11,6 +11,7 @@ export type ModelVersion = 'v1' | 'v2' | 'v3';
 
 export type FrameData = {
     count: number,
+    model: ModelVersion,
     image: string,
 }
 
