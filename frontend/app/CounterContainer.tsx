@@ -8,7 +8,6 @@ import { useDemoStore, COUNTER_STATES, FrameData } from './hooks/useDemoStore';
 import useAnnotatedModal from './hooks/useAnnotatedModal';
 import { useRouter } from 'next/navigation';
 import SurferCountChartVisualization from './components/Counter/SurferCountChartVisualization';
-import { time } from 'console';
 
 const INIT_TIMESTAMP = 0
 
@@ -17,7 +16,6 @@ const CounterContainer = () => {
     const { 
         counterState,
         setCounterState,
-        count,
         setCount,
         model,
         countHistory,
